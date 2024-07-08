@@ -1,4 +1,4 @@
-use chrono::Utc;
+use chrono::{Utc, DateTime};
 use dotenv::dotenv;
 use rppal::i2c::I2c;
 use std::env;
@@ -43,14 +43,13 @@ async fn main() -> Result<(), Error> {
         // Read data from the sensor
         let data = read_sht45(&mut i2c).unwrap();
 
-        // Convert the current time to a string
-        let current_time: chrono::DateTime<Utc> = Utc::now();
-        let time_str = current_time.to_rfc3339();
+        // Get the current time
+        let current_time: DateTime<Utc> = Utc::now();
 
         // Insert data into the database
         client.execute(
             "INSERT INTO sensor_data (sensor_id, temperature, humidity, time) VALUES ($1, $2, $3, $4)",
-            &[&sensor_id, &data.temperature, &data.humidity, &time_str],
+            &[&sensor_id, &data.temperature, &data.humidity, &current_time],
         ).await?;
 
         println!(
