@@ -1,0 +1,12 @@
+[package]
+name = "weather_sensor"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rppal = "0.12"  # Raspberry Pi Peripheral Access Library
+async-std = "1.10"
+tokio = { version = "1", features = ["full"] }
+tokio-postgres = { version = "0.7" }
+dotenv = "0.15"
+chrono = "0.4"
